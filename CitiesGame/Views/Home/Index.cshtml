@@ -1,0 +1,38 @@
+﻿@model CitiesGame.Models.GameViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <textarea cols="40" rows="20" readonly> 
+        @foreach(var item in Model.Items)
+        {
+            
+            <text>@item.Author: @item.City
+            @item.Time
+</text>
+            
+        }
+    </textarea>
+        <div>
+            <form method="post">
+                <span>@Html.ValidationSummary()</span>
+                    <label for="City">
+                        Город:
+                        <input type="text" name="City" />
+                    </label>
+                    <label for="Author">
+                        Ваше имя:
+                        <input type="text" name="Author" />
+                    </label>                
+                    <input type="submit" />                
+        </form>
+    </div>
+    </div>
+</body>
+</html>
