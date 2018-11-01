@@ -24,11 +24,12 @@ namespace CitiesGame.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            City = City.Trim();
             if (string.IsNullOrEmpty(City))
             {
                 yield return new ValidationResult("Поле \"Город\" не может быть пустым.");
             }
-            else if(!(City = City.Trim()).All(char.IsLetter))
+            else if(!City.All(char.IsLetter))
             {
                 yield return new ValidationResult($"Название города должно содержать только буквенные символы.");
             }
@@ -36,8 +37,8 @@ namespace CitiesGame.Models
             {                
                 if (Game.Items.Any())
                 {
-                    GameItem gameItem;
-                    if((gameItem = Game.Items.FirstOrDefault(i => string.Equals(i.City, City, StringComparison.InvariantCultureIgnoreCase))) != null)
+                    GameItem gameItem = Game.Items.FirstOrDefault(i => string.Equals(i.City, City, StringComparison.InvariantCultureIgnoreCase));
+                    if(gameItem != null)
                     {
                         yield return new ValidationResult($"Город {gameItem.City} ранее был назван игроком {gameItem.Author}");
                     }

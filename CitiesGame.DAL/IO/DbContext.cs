@@ -28,7 +28,7 @@ namespace CitiesGame.DAL.IO
                 {
                     resultStr = reader.ReadToEnd();
                 }
-                return resultStr.Split('\n').Select(s => new City { Name = s }).ToArray();
+                return resultStr.Split(new char []{'\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(s => new City { Name = s }).ToArray();
             }
             return Enumerable.Empty<City>();
         }
