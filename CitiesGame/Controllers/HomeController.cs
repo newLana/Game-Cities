@@ -25,8 +25,10 @@ namespace CitiesGame.Controllers
                     Author = viewModel.Author,
                     City = viewModel.City
 
-                });
+                });                
+                return RedirectToAction("Index");
             }
+
             viewModel.Items = Game.Items;
             return View(viewModel);
         }
