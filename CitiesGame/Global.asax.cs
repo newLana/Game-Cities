@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using CitiesGame.Models.DI;
+using CitiesGame.Models.Entities;
+using CitiesGame.Models.Interfaces;
+using CitiesGame.Models.Repositories.ADO;
+using CitiesGame.Models.Repositories.EF;
+using CitiesGame.Models.Repositories.IO;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -13,6 +15,9 @@ namespace CitiesGame
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            CustomDependencyResolver.Bind<IRepository<City>, IoRepository>();
+            DependencyResolver.SetResolver(new CustomDependencyResolver());
         }
     }
 }

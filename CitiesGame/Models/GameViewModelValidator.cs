@@ -2,55 +2,91 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using CitiesGame.DAL.Entities;
-using CitiesGame.DAL.Interfaces;
-using CitiesGame.DAL.Repositories;
+using CitiesGame.Models.Interfaces;
+using CitiesGame.Models.Entities;
+using CitiesGame.Models.DI;
 
 namespace CitiesGame.Models
 {
     public class GameViewModelValidator
     {
-        static IRepository<City> db;
+        static IRepository<City> db = (IRepository<City>)new CustomDependencyResolver()
+            .GetService(typeof(IRepository<City>));
 
-        static GameViewModelValidator()
-        {
-            db = new CityRepository();
-        }
+        public List<ValidationResult> ValidationResults { get; set; } 
+            = new List<ValidationResult>();
+
+        private string city;        
 
         public IEnumerable<ValidationResult> ValidationSummury(GameViewModel gameViewModel)
         {
-            string City = gameViewModel.City.Trim();
+            city = gameViewModel.City.Trim();
 
-            if (string.IsNullOrEmpty(City))
+            CityNameNotEmpty();
+            CityContainsLettersOnly();
+
+            if (!ValidationResults.Any() && Game.Items.Any())
             {
-                yield return new ValidationResult("Поле \"Город\" не может быть пустым.");
+                ValidLastLetter();
+                CityHasUsed();
+                ValidCityName();
             }
-            else if (!City.All(char.IsLetter))
+
+            return ValidationResults;
+        }
+
+        private void ValidCityName()
+        {
+            if (!db.Contains(city))
             {
-                yield return new ValidationResult($"Название города должно содержать только буквенные символы.");
+                ValidationResults.Add(new ValidationResult("Такого города нет в базе."));
             }
-            else
+        }
+
+        private void CityHasUsed()
+        {
+            bool hasUsed = Game.Items.Any(i => string.Equals(i.City, city,
+                StringComparison.InvariantCultureIgnoreCase));
+
+            if(hasUsed)
             {
-                if (Game.Items.Any())
-                {
-                    GameItem gameItem = Game.Items.FirstOrDefault(i => string.Equals(i.City, City,
-                        StringComparison.InvariantCultureIgnoreCase));
+                ValidationResults.Add(new ValidationResult($"Город {city}" +
+                    $" ранее был назван."));
+            }
+        }
 
-                    char lastLetter = Game.Items.LastOrDefault().City.ToUpper().Last(c => c != 'Ь');
+        private void ValidLastLetter()
+        {
+            char lastLetter = Game.Items.LastOrDefault()
+                .City.ToUpper().Last(c => c != 'Ь');
 
-                    if (!City.ToUpper().StartsWith((lastLetter == 'Й') ? "И" : ((lastLetter == 'Ё') ? "Е" : lastLetter.ToString())))
-                    {
-                        yield return new ValidationResult($"Название города должно начинаться с буквы {lastLetter}.");
-                    }
-                    else if (gameItem != null)
-                    {
-                        yield return new ValidationResult($"Город {gameItem.City} ранее был назван игроком {gameItem.Author}");
-                    }
-                }
-                if (!db.Contains(City))
-                {
-                    yield return new ValidationResult("Такого города нет в базе.");
-                }
+            if(lastLetter == 'Й' || lastLetter == 'Ё')
+            {
+                lastLetter = lastLetter == 'Й' ? 'И' : 'Е'; 
+            }
+
+            if(city.First() != lastLetter)
+            {
+                ValidationResults.Add(new ValidationResult($"Название" +
+                    $" города должно начинаться с буквы {lastLetter}."));
+            }
+        }
+
+        private void CityContainsLettersOnly()
+        {
+            if (!city.All(char.IsLetter))
+            {
+                ValidationResults.Add(new ValidationResult($"Название города " +
+                    $"должно содержать только буквенные символы."));
+            }
+        }
+
+        private void CityNameNotEmpty()
+        {
+            if (string.IsNullOrEmpty(city))
+            {
+                ValidationResults.Add(new ValidationResult("Поле \"Город\" не может" +
+                    " быть пустым."));
             }
         }
     }

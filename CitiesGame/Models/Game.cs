@@ -15,7 +15,7 @@ namespace CitiesGame.Models
         {
             if(string.IsNullOrWhiteSpace(item.Author))
             {
-                item.Author = "Anonimus";
+                item.Author = "Anonymus";
             }
             item.Time = DateTime.Now;
 

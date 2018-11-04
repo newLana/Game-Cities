@@ -43,6 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -89,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\db.txt" />
+    <Content Include="App_Data\dbSetup.sql" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -98,10 +105,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DI\CustomDependencyResolver.cs" />
+    <Compile Include="Models\Entities\City.cs" />
     <Compile Include="Models\GameViewModelValidator.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameItem.cs" />
     <Compile Include="Models\GameViewModel.cs" />
+    <Compile Include="Models\Repositories\Abstracts\IRepository.cs" />
+    <Compile Include="Models\Repositories\ADO\AdoRepository.cs" />
+    <Compile Include="Models\Repositories\EF\CityContext.cs" />
+    <Compile Include="Models\Repositories\EF\EfRepository.cs" />
+    <Compile Include="Models\Repositories\IO\IoRepository.cs" />
+    <Compile Include="Models\Repositories\Abstracts\RepositoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,12 +131,6 @@
     </None>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\CitiesGame.DAL\CitiesGame.DAL.csproj">
-      <Project>{3f2c6da4-147a-4dd0-ac5c-c935877be8b4}</Project>
-      <Name>CitiesGame.DAL</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

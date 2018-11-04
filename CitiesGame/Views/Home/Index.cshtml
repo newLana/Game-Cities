@@ -10,14 +10,13 @@
 <body>
     <div>
         <textarea cols="40" rows="20" readonly> 
-        @foreach(var item in Model.Items)
-        {
-            
-            <text>@item.Author: @item.City
-            @item.Time
-</text>            
-        }
-    </textarea>
+            @foreach(var item in Model.Items)
+            {            
+                <text>@item.Author: @item.City
+                @item.Time
+                </text>            
+            }
+        </textarea>
         <div>
             <form method="post">
                 <span>@Html.ValidationSummary()</span>
