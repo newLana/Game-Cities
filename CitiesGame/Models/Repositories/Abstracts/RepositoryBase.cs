@@ -1,5 +1,4 @@
 ﻿using CitiesGame.Models.Entities;
-using CitiesGame.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Web;
 
 namespace CitiesGame.Models.Repositories
 {
-    public abstract class RepositoryBase : IRepository<City>
+    public abstract class RepositoryBase
     {
         protected static IEnumerable<City> cities;
 

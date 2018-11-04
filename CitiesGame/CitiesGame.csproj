@@ -111,7 +111,6 @@
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameItem.cs" />
     <Compile Include="Models\GameViewModel.cs" />
-    <Compile Include="Models\Repositories\Abstracts\IRepository.cs" />
     <Compile Include="Models\Repositories\ADO\AdoRepository.cs" />
     <Compile Include="Models\Repositories\EF\CityContext.cs" />
     <Compile Include="Models\Repositories\EF\EfRepository.cs" />
