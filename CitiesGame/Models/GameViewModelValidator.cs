@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using CitiesGame.Models.Interfaces;
 using CitiesGame.Models.Entities;
 using CitiesGame.Models.DI;
+using CitiesGame.Models.Repositories.Abstracts;
 
 namespace CitiesGame.Models
 {

@@ -1,6 +1,6 @@
 ﻿using CitiesGame.Models.DI;
 using CitiesGame.Models.Entities;
-using CitiesGame.Models.Repositories;
+using CitiesGame.Models.Repositories.Abstracts;
 using CitiesGame.Models.Repositories.ADO;
 using CitiesGame.Models.Repositories.EF;
 using CitiesGame.Models.Repositories.IO;
@@ -16,7 +16,7 @@ namespace CitiesGame
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            CustomDependencyResolver.Bind<RepositoryBase, IoRepository>();
+            CustomDependencyResolver.Bind<IRepository<City>, IoRepository>();
             DependencyResolver.SetResolver(new CustomDependencyResolver());
         }
     }

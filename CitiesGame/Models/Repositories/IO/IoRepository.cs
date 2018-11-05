@@ -1,5 +1,4 @@
 ﻿using CitiesGame.Models.Entities;
-using CitiesGame.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
